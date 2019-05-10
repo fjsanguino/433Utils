@@ -24,16 +24,16 @@ int main(int argc, char *argv[]) {
     // This pin is not the first pin on the RPi GPIO header!
     // Consult https://projects.drogon.net/raspberry-pi/wiringpi/pins/
     // for more information.
-    int PIN = 0;
-    
+     
     // Parse the first parameter to this command as an integer
     int protocol = 0; // A value of 0 will use rc-switch's default value
     int pulseLength = 0;
 
     // If no command line argument is given, print the help text
     if (argc == 1) {
-        printf("Usage: %s decimalcode [protocol] [pulselength]\n", argv[0]);
+        printf("Usage: %s decimalcode PIN [protocol] [pulselength]\n", argv[0]);
         printf("decimalcode\t- As decoded by RFSniffer\n");
+	printf("PIN\t- As in wiringPi");
         printf("protocol\t- According to rc-switch definitions\n");
         printf("pulselength\t- pulselength in microseconds\n");
         return -1;
@@ -41,8 +41,9 @@ int main(int argc, char *argv[]) {
 
     // Change protocol and pulse length accroding to parameters
     int code = atoi(argv[1]);
-    if (argc >= 3) protocol = atoi(argv[2]);
-    if (argc >= 4) pulseLength = atoi(argv[3]);
+    int PIN = atoi(argv[2]);
+    if (argc >= 4) protocol = atoi(argv[3]);
+    if (argc >= 5) pulseLength = atoi(argv[4]);
     
     if (wiringPiSetup () == -1) return 1;
     printf("sending code[%i]\n", code);
